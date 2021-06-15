@@ -31,7 +31,7 @@
       <table class="table1" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
-            <th colspan="2">Taste</th>
+            <th :colspan="2">Taste</th>
           </tr>
         </thead>
         <tbody>
@@ -79,7 +79,7 @@
       <table class="table1" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
-            <th colspan="2">Design</th>
+            <th :colspan="2">Design</th>
           </tr>
         </thead>
         <tbody>

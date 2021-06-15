@@ -12,8 +12,8 @@
               :name="field.name"
               :placeholder="field.label"
             />
-            <error-message v-if="field.errors.value" class="err">
-              {{ field.errors.value }}
+            <error-message v-if="field.errors?.value" class="err">
+              {{ field.errors?.value }}
             </error-message>
           </div>
 
@@ -27,22 +27,14 @@
 </template>
 
 <script lang="ts">
-import { ComputedRef, defineComponent, ref, Ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { pick } from 'lodash'
 import { useForm, useField } from 'vee-validate'
 import { useStore } from '@/store'
+import { Field } from '@/middlewares/validator/form'
 import yup, { userRules } from '@/middlewares/validator/yup'
 import { setTitle } from '@/common/helper'
 import ErrorMessage from '@/components/Message/ErrorMessage.vue'
-
-interface Field<TValue = unknown> {
-  name: string
-  label: string
-  type?: string
-  value?: Ref<TValue>
-  errors?: ComputedRef<string | undefined>
-  ref?: Ref<any>
-}
 
 export default defineComponent({
   name: 'Signup',
@@ -113,7 +105,7 @@ export default defineComponent({
     })
 
     return {
-      fields,
+      fields: fields as Required<Field>[],
       onSubmit,
     }
   },

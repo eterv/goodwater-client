@@ -29,23 +29,15 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref, Ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useField } from 'vee-validate'
 import { useStore } from '@/store'
+import { Field } from '@/middlewares/validator/form'
 import yup, { userRules } from '@/middlewares/validator/yup'
 import { setTitle } from '@/common/helper'
 import ErrorMessage from '@/components/Message/ErrorMessage.vue'
 import { pick } from 'lodash'
-
-interface Field<TValue = unknown> {
-  name: string
-  label: string
-  type?: string
-  value?: Ref<TValue>
-  errors?: ComputedRef<string | undefined>
-  ref?: Ref<any>
-}
 
 const schema = yup.object(pick(userRules, 'email', 'pw'))
 
@@ -95,7 +87,7 @@ export default defineComponent({
     fields.forEach((field) => {
       if (!field.type) field.type = 'text'
 
-      const { value, errorMessage } = useField(field.name)
+      const { value, errorMessage } = useField<string>(field.name)
       field.value = value
       field.errors = errorMessage
       field.ref = ref(null)
@@ -124,7 +116,7 @@ export default defineComponent({
     return {
       errors,
 
-      fields,
+      fields: fields as Required<Field>[],
       onSubmit,
       signUp,
     }

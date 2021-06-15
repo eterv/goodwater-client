@@ -33,8 +33,8 @@
             :name="field.name"
             :placeholder="field.label"
           />
-          <error-message v-if="field.errors.value" class="err">
-            {{ field.errors.value }}
+          <error-message v-if="field.errors?.value" class="err">
+            {{ field.errors?.value }}
           </error-message>
         </div>
 
@@ -51,25 +51,17 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref, Ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useField } from 'vee-validate'
 import { useStore } from '@/store'
+import { Field } from '@/middlewares/validator/form'
 import yup from '@/middlewares/validator/yup'
 import { setTitle } from '@/common/helper'
 import Content from '@/components/blocks/Content.vue'
 import ErrorMessage from '@/components/Message/ErrorMessage.vue'
 import H1 from '@/components/blocks/H1.vue'
 import { createContact } from '@/modules/contact/service'
-
-interface Field<TValue = unknown> {
-  name: string
-  label: string
-  type?: string
-  value?: Ref<TValue>
-  errors?: ComputedRef<string | undefined>
-  ref?: Ref<any>
-}
 
 const contactList = [
   {
@@ -136,7 +128,7 @@ export default defineComponent({
 
     setTitle('Contact')
 
-    const { handleSubmit, values } = useForm({
+    const { handleSubmit } = useForm({
       validationSchema: schema,
       initialValues: {
         name: '테스터',
@@ -190,7 +182,7 @@ export default defineComponent({
 
     return {
       contactList,
-      fields,
+      fields: fields as Required<Field>[],
       onSubmit,
       user,
       viewList,

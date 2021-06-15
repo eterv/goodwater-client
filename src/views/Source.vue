@@ -79,7 +79,7 @@
               <td>7.6</td>
             </tr>
             <tr>
-              <td colspan="2">
+              <td :colspan="2">
                 <strong>Additionala data</strong>
               </td>
             </tr>
