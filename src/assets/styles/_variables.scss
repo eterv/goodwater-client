@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+// Default breakpoints
+// 유틸리티 클래스에서 끝에 콜론(:) 후에 브레이크포인트 사용
+$breakpoints: (
+  xs: 0,
+  s: 480px,
+  m: 768px,
+  l: 1024px,
+  xl: 1280px,
+	xxl: 1792px
+) !default;
+
+// Key media breakpoint that seperate small and big.
+// 유틸리티 클래스에서 끝에 더블 콜론(::) 후에 small / big
+$key-breakpoint: map-get($breakpoints, m) !default;
+
+$content-width: 1200px;
+
+$tran-duration: 300ms;
+
+$header-height-big: 120px;
+$header-height-small: 85px;

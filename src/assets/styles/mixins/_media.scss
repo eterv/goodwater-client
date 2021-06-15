@@ -1,0 +1,85 @@
+@charset "utf-8";
+///
+/// Functions & Mixins - Media (breakpoints)
+///
+
+@function bp-min($name, $bp: $breakpoints) {
+  $min: map-get($bp, $name);
+  @return if($min == 0, null, $min);
+}
+
+@function bp-max($name, $bp: $breakpoints) {
+  $keys: map-keys($bp);
+  $n: index($keys, $name);
+  $next-key: if($n == null or $n >= length($keys), null, nth($keys, $n + 1));
+
+  @return if($next-key, bp-min($next-key, $bp) - .02, null);
+}
+
+@mixin media-up($name, $bp: $breakpoints) {
+  $min: bp-min($name, $bp);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin media-up-l($bp: $breakpoints) {
+  @include media-up("l", $bp) {
+    @content;
+  }
+}
+
+@mixin media-down($name, $bp: $breakpoints) {
+  $max: bp-max($name, $bp);
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin media-between($lower, $upper, $bp: $breakpoints) {
+  $min: bp-min($lower, $bp);
+  $max: bp-max($upper, $bp);
+
+  @if $min != null and $max != null {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if $min != null {
+    @include media-up($lower, $bp) {
+      @content;
+    }
+  } @else if $max != null {
+    @include media-down($upper, $bp) {
+      @content;
+    }
+  }
+}
+
+@mixin media-only($name, $bp: $breakpoints) {
+  @include media-between($name, $name, $bp) {
+    @content;
+  }
+}
+
+@mixin media-small() {
+  // $affix: "\\:\\:small";
+  @media (max-width: $key-breakpoint - .02) {
+    //@content($affix);
+    @content;
+  }
+}
+@mixin media-big() {
+  // $affix: "\\:\\:big";
+  @media (min-width: $key-breakpoint) {
+    //@content($affix);
+    @content;
+  }
+}

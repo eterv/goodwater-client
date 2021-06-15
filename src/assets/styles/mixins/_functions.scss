@@ -1,0 +1,21 @@
+@charset "utf-8";
+///
+/// Functions & Mixins - Base
+///
+
+///
+/// 폰트를 정의한다.
+///
+@mixin font-face($name, $weight, $file, $types: ('woff')) {
+  $exts: ( woff: woff, woff2: woff2, truetype: ttf, opentype: otf );
+  $src: ();
+  @each $type in $types {
+    $ext: map-get($exts, $type);
+    $src: append($src, url("/assets/fonts/" + $file + "." + $ext) format(quote($type)), comma);
+  }
+  
+  @font-face {
+    font-family: $name; font-weight: $weight;
+    src: $src;
+  }
+}
