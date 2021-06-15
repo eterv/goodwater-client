@@ -7,8 +7,6 @@ import store from '@/store'
 const LayoutDefault = () => import('./layouts/LayoutDefault.vue')
 const LayoutEmpty = () => import('./layouts/LayoutEmpty.vue')
 
-//import Stopwatch from './views/Stopwatch.vue'
-
 const pages = navList.map<RouteRecordRaw>(({ name, href }) => {
   return {
     path: href,
@@ -19,11 +17,10 @@ const pages = navList.map<RouteRecordRaw>(({ name, href }) => {
 
 const routes: RouteRecordRaw[] = [
   // 일반 페이지 라우팅 정의
-  { path: '/', name: 'Home', component: Home },
   {
     path: '/',
     component: LayoutDefault,
-    children: [...pages],
+    children: [{ path: '/', name: 'Home', component: Home }, ...pages],
   },
 
   //{ path: '/test1', name: 'TestPage1', component: TestPage1 },
